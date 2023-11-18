@@ -10,18 +10,13 @@ import {
   Body,
   Put,
   Delete,
-  Header,
   Headers,
   Param,
 } from '@nestjs/common';
 import { NguoiDungService } from './nguoi-dung.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
-import {
-  nguoiDung,
-  nguoiDungType,
-  thongTinNguoiDung,
-} from 'src/interface/interface';
+import { nguoiDung, thongTinNguoiDung } from 'src/interface/interface';
 @ApiBearerAuth()
 @UseGuards(AuthGuard('jwt'))
 @ApiTags('Quản lý người dùng')
@@ -87,8 +82,13 @@ export class NguoiDungController {
     @Param('page') page: number,
     @Param('pageSize') pageSize: number,
     @Res() res,
-    @Req() req
+    @Req() req,
   ) {
-    return this.nguoiDungService.getPaginationUserList(+page, +pageSize, res,req);
+    return this.nguoiDungService.getPaginationUserList(
+      +page,
+      +pageSize,
+      res,
+      req,
+    );
   }
 }

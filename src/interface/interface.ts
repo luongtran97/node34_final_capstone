@@ -111,3 +111,67 @@ export const mapNguoiDungToResponsesType = (data: nguoiDungType[]) => {
     email: item.email,
   }));
 };
+
+export type Phim = {
+  ma_phim: number;
+  ten_phim: string;
+  trailer: string;
+  hinh_anh: string;
+  mo_ta: string;
+  ngay_khoi_chieu: Date;
+  danh_gia: number;
+  hot: boolean;
+  dang_chieu: boolean;
+  sap_chieu: boolean;
+};
+export class uploadFlim {
+  @ApiProperty()
+  ten_phim: string;
+
+  @ApiProperty()
+  ngay_khoi_chieu: Date;
+
+  @ApiProperty()
+  danh_gia: number;
+
+  @ApiProperty()
+  hot: boolean;
+
+  @ApiProperty()
+  dang_chieu: boolean;
+
+  @ApiProperty()
+  sap_chieu: boolean;
+
+  @ApiProperty()
+  mo_ta: string;
+}
+
+export class uploadFileFilm {
+  // @ApiProperty()
+  // ten_phim: string;
+
+  @ApiProperty({ type: String, format: 'binary' })
+  img: any;
+
+  // @ApiProperty()
+  // ngay_khoi_chieu: Date;
+
+  @ApiProperty({ type: String, format: 'binary' })
+  video: string;
+
+  // @ApiProperty()
+  // danh_gia: number;
+
+  // @ApiProperty()
+  // hot: boolean;
+
+  // @ApiProperty()
+  // dang_chieu: boolean;
+
+  // @ApiProperty()
+  // sap_chieu: boolean;
+
+  // @ApiProperty()
+  // mo_ta: string;
+}
