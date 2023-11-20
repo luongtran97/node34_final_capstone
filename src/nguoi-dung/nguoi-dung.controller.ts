@@ -70,13 +70,13 @@ export class NguoiDungController {
     return this.nguoiDungService.getUserInfo(+id_nguoi_dung, res, req);
   }
 
-  // lấy thông tin cá nhân
+  // api lấy thông tin cá nhân
   @Get('/ThongTinCaNhan')
   getInfor(@Headers('token') token: string, @Req() req, @Res() res) {
     return this.nguoiDungService.getInfor(token, req, res);
   }
 
-  // lấy danh sách người dùng phân trang
+  // api lấy danh sách người dùng phân trang
   @Get('/LayDanhSachNguoiDungPhanTrang/:page/:pageSize')
   getPaginationUserList(
     @Param('page') page: number,

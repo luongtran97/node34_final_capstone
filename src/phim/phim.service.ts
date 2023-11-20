@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
-import { ultimateImg } from 'src/config/config';
 import { Phim } from 'src/interface/interface';
 
 @Injectable()
@@ -29,10 +28,125 @@ export class PhimService {
   }
 
   // xử lý thêm phim
-  async createFlim(files) {
-    console.log("🚀 ~ files:", files)
- 
+  async createFlim(body, res): Promise<void> {
+    const checkFLim: Phim[] = await this.prisma.phim.findMany({
+      where: {
+        ten_phim: body.ten_phim,
+      },
+    });
 
-    // let imgBase = await ultimateImg(file)
+    if (checkFLim.length == 0) {
+      try {
+        await this.prisma.phim.create({ data: body });
+        return res.status(201).send('Đã thêm phim thành công!');
+      } catch (error) {
+        return res.status(400).send(error);
+      }
+    } else {
+      return res.status(400).send('Tên phim đã tồn tại!');
+    }
+  }
+
+  // xử lý upload hình phim
+  async uploadFlimImg(ma_phim, file, res): Promise<Phim> {
+    try {
+      const data: Phim = await this.prisma.phim.update({
+        data: {
+          hinh_anh: file.filename,
+        },
+        where: {
+          ma_phim,
+        },
+      });
+      return res.status(200).send(data);
+    } catch (error) {
+      return res.status(400).send(error);
+    }
+  }
+
+  //xử lý upload trailer
+  async uploadFlimTrailer(ma_phim, video, res): Promise<Phim> {
+    try {
+      const data: Phim = await this.prisma.phim.update({
+        data: {
+          trailer: video.filename,
+        },
+        where: {
+          ma_phim,
+        },
+      });
+
+      return res.status(200).send(data);
+    } catch (error) {
+      return res.status(400).send(error);
+    }
+  }
+
+  // xử lý cập nhập thông tin thông phim
+  async uploadFlimInfo(body, res, ma_phim): Promise<Phim> {
+    try {
+      const data = await this.prisma.phim.update({
+        data: body,
+        where: {
+          ma_phim,
+        },
+      });
+      return res.status(200).send(data);
+    } catch (error) {
+      return res.status(400).send(error);
+    }
+  }
+
+  // xử lý lấy thông tin phim
+  async GetFlimInfo(ma_phim, res): Promise<Phim> {
+    try {
+      const data = await this.prisma.phim.findMany({
+        where: {
+          ma_phim,
+        },
+      });
+      return res.status(200).send(data);
+    } catch (error) {
+      return res.status(400).send(error);
+    }
+  }
+
+  // xử lý xóa phim
+  async delFlim(ma_phim, res): Promise<void> {
+    const checkFlimExisting = await this.prisma.phim.findMany({
+      where: {
+        ma_phim,
+      },
+    });
+    if (checkFlimExisting.length == 0) {
+      return res.send('Phim không tồn tại!');
+    }
+    try {
+      await this.prisma.phim.delete({
+        where: {
+          ma_phim,
+        },
+      });
+      return res.status(200).send('Xóa thành công');
+    } catch (error) {
+      return res.status(400).send(error);
+    }
+  }
+
+  // xử lý lấy danh sách phim theo ngày
+  async getFLimListByDay(tu_ngay, den_ngay, res): Promise<Phim[]> {
+    try {
+      const data: Phim[] = await this.prisma.phim.findMany({
+        where: {
+          ngay_khoi_chieu: {
+            gte: tu_ngay,
+            lte: den_ngay,
+          },
+        },
+      });
+      return res.status(200).send(data);
+    } catch (error) {
+      return res.status(400).send(error);
+    }
   }
 }
