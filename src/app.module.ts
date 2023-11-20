@@ -7,11 +7,12 @@ import { JwtStrategy } from './strategy/jwt.strategy';
 import { ConfigModule } from '@nestjs/config';
 import { DatVeModule } from './dat-ve/dat-ve.module';
 import { PhimModule } from './phim/phim.module';
+import { BannerModule } from './banner/banner.module';
 
 @Module({
   imports: [NguoiDungModule, AuthModule ,  ConfigModule.forRoot({
     isGlobal:true
-  }), DatVeModule, PhimModule],
+  }), DatVeModule, PhimModule, BannerModule],
   controllers: [AppController],
   providers: [AppService,JwtStrategy],
 })

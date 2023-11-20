@@ -167,7 +167,21 @@ export class uploadFlim {
   @ApiProperty()
   mo_ta: string;
 }
+export class uploadBannerDot {
+  @ApiProperty({ type: String, format: 'binary' })
+  banner_img: any;
 
+  @ApiProperty()
+  ma_phim: number;
+}
+export class addBannerDto {
+  @ApiProperty()
+  ma_phim: number;
+}
+export class bannerDto{
+  @ApiProperty()
+  ma_banner:number
+}
 export class uploadFilmImg {
   @ApiProperty({ type: String, format: 'binary' })
   img: any;
@@ -175,4 +189,13 @@ export class uploadFilmImg {
 export class uploadFilmTrailer {
   @ApiProperty({ type: String, format: 'binary' })
   video: any;
+}
+
+export class uploadBanner{
+
+  @ApiProperty({ type: String, format: 'binary' })
+  banner_img: any;
+
+  @ApiProperty()
+  ma_banner: number;
 }

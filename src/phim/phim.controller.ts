@@ -9,11 +9,13 @@ import {
   Put,
   UploadedFile,
   Query,
+  Req,
   UseInterceptors,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { PhimService } from './phim.service';
-import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 
 import {
@@ -22,6 +24,10 @@ import {
   uploadFilmTrailer,
 } from 'src/interface/interface';
 import { multerOption } from 'src/config/config';
+import { AuthGuard } from '@nestjs/passport';
+
+@ApiBearerAuth()
+@UseGuards(AuthGuard('jwt'))
 @ApiTags('Quản lý phim')
 @Controller('flim')
 export class PhimController {
@@ -30,8 +36,8 @@ export class PhimController {
   // api lấy danh sách phim
   @Get('/LayDanhSachPhim')
   @HttpCode(200)
-  getFilmsList() {
-    return this.phimService.getFlimsList();
+  getFilmsList(@Req() req, @Res() res) {
+    return this.phimService.getFlimsList(req, res);
   }
 
   // api lấy danh sách phim phân trang
@@ -40,8 +46,9 @@ export class PhimController {
     @Param('page') page: number,
     @Param('pageSize') pageSize: number,
     @Res() res,
+    @Req() req,
   ) {
-    return this.phimService.getFlimPagination(+page, +pageSize, res);
+    return this.phimService.getFlimPagination(+page, +pageSize, res, req);
   }
 
   //api lấy danh sách phim theo ngày
@@ -50,20 +57,21 @@ export class PhimController {
     @Query('tu_ngay') tu_ngay: number,
     @Query('den_ngay') den_ngay: number,
     @Res() res,
+    @Req() req,
   ) {
-    return this.phimService.getFLimListByDay(+tu_ngay, +den_ngay, res);
+    return this.phimService.getFLimListByDay(+tu_ngay, +den_ngay, res, req);
   }
 
   //api lấy thông tin phim
   @Get('LayThongTinChiTietPhim')
-  GetFlimInfo(@Query('ma_phim') ma_phim: number, @Res() res) {
-    return this.phimService.GetFlimInfo(+ma_phim, res);
+  GetFlimInfo(@Query('ma_phim') ma_phim: number, @Res() res, @Req() req) {
+    return this.phimService.GetFlimInfo(+ma_phim, res, req);
   }
 
   // api thêm phim
   @Post('/ThemPhim')
-  createFlim(@Body() body: upLoadFlim, @Res() res) {
-    return this.phimService.createFlim(body, res);
+  createFlim(@Body() body: upLoadFlim, @Res() res, @Req() req) {
+    return this.phimService.createFlim(body, res, req);
   }
 
   // api upLoad hình Phim
@@ -78,8 +86,9 @@ export class PhimController {
     img: Express.Multer.File,
     @Query('ma_phim') ma_phim: number,
     @Res() res,
+    @Req() req,
   ) {
-    return this.phimService.uploadFlimImg(+ma_phim, img, res);
+    return this.phimService.uploadFlimImg(+ma_phim, img, res, req);
   }
 
   // api upload trailer
@@ -94,8 +103,9 @@ export class PhimController {
     video: Express.Multer.File,
     @Query('ma_phim') ma_phim: number,
     @Res() res,
+    @Req() req,
   ) {
-    return this.phimService.uploadFlimTrailer(+ma_phim, video, res);
+    return this.phimService.uploadFlimTrailer(+ma_phim, video, res, req);
   }
 
   //api upload thông tin phim
@@ -104,13 +114,14 @@ export class PhimController {
     @Body() body: upLoadFlim,
     @Res() res,
     @Query('ma_phim') ma_phim: number,
+    @Req() req,
   ) {
-    return this.phimService.uploadFlimInfo(body, res, +ma_phim);
+    return this.phimService.uploadFlimInfo(body, res, +ma_phim, req);
   }
 
   //api xóa phim
   @Delete('/XoaPhim')
-  delFlim(@Query('ma_phim') ma_phim: number, @Res() res) {
-    return this.phimService.delFlim(+ma_phim, res);
+  delFlim(@Query('ma_phim') ma_phim: number, @Res() res, @Req() req) {
+    return this.phimService.delFlim(+ma_phim, res, req);
   }
 }

@@ -7,12 +7,20 @@ export class PhimService {
   prisma = new PrismaClient();
 
   // xử lý lấy danh sách phim
-  async getFlimsList(): Promise<Phim[]> {
+  async getFlimsList(req, res): Promise<Phim[]> {
+    const role = req.user.data.loai_nguoi_dung;
+    if (role !== 'admin') {
+      return res.status(403);
+    }
     return await this.prisma.phim.findMany();
   }
 
   // xử lý lấy danh sách phim phân trang
-  async getFlimPagination(page, pageSize, res): Promise<Phim[]> {
+  async getFlimPagination(page, pageSize, res, req): Promise<Phim[]> {
+    const role = req.user.data.loai_nguoi_dung;
+    if (role !== 'admin') {
+      return res.status(403);
+    }
     let index: number = (1 - page) * pageSize;
 
     try {
@@ -28,7 +36,11 @@ export class PhimService {
   }
 
   // xử lý thêm phim
-  async createFlim(body, res): Promise<void> {
+  async createFlim(body, res, req): Promise<void> {
+    const role = req.user.data.loai_nguoi_dung;
+    if (role !== 'admin') {
+      return res.status(403);
+    }
     const checkFLim: Phim[] = await this.prisma.phim.findMany({
       where: {
         ten_phim: body.ten_phim,
@@ -48,7 +60,11 @@ export class PhimService {
   }
 
   // xử lý upload hình phim
-  async uploadFlimImg(ma_phim, file, res): Promise<Phim> {
+  async uploadFlimImg(ma_phim, file, res, req): Promise<Phim> {
+    const role = req.user.data.loai_nguoi_dung;
+    if (role !== 'admin') {
+      return res.status(403);
+    }
     try {
       const data: Phim = await this.prisma.phim.update({
         data: {
@@ -65,7 +81,12 @@ export class PhimService {
   }
 
   //xử lý upload trailer
-  async uploadFlimTrailer(ma_phim, video, res): Promise<Phim> {
+  async uploadFlimTrailer(ma_phim, video, res, req): Promise<Phim> {
+    const role = req.user.data.loai_nguoi_dung;
+    if (role !== 'admin') {
+      return res.status(403);
+    }
+
     try {
       const data: Phim = await this.prisma.phim.update({
         data: {
@@ -83,7 +104,11 @@ export class PhimService {
   }
 
   // xử lý cập nhập thông tin thông phim
-  async uploadFlimInfo(body, res, ma_phim): Promise<Phim> {
+  async uploadFlimInfo(body, res, ma_phim, req): Promise<Phim> {
+    const role = req.user.data.loai_nguoi_dung;
+    if (role !== 'admin') {
+      return res.status(403);
+    }
     try {
       const data = await this.prisma.phim.update({
         data: body,
@@ -98,7 +123,12 @@ export class PhimService {
   }
 
   // xử lý lấy thông tin phim
-  async GetFlimInfo(ma_phim, res): Promise<Phim> {
+  async GetFlimInfo(ma_phim, res, req): Promise<Phim> {
+    const role = req.user.data.loai_nguoi_dung;
+    if (role !== 'admin') {
+      return res.status(403);
+    }
+
     try {
       const data = await this.prisma.phim.findMany({
         where: {
@@ -112,7 +142,12 @@ export class PhimService {
   }
 
   // xử lý xóa phim
-  async delFlim(ma_phim, res): Promise<void> {
+  async delFlim(ma_phim, res, req): Promise<void> {
+    const role = req.user.data.loai_nguoi_dung;
+    if (role !== 'admin') {
+      return res.status(403);
+    }
+
     const checkFlimExisting = await this.prisma.phim.findMany({
       where: {
         ma_phim,
@@ -134,7 +169,12 @@ export class PhimService {
   }
 
   // xử lý lấy danh sách phim theo ngày
-  async getFLimListByDay(tu_ngay, den_ngay, res): Promise<Phim[]> {
+  async getFLimListByDay(tu_ngay, den_ngay, res, req): Promise<Phim[]> {
+    const role = req.user.data.loai_nguoi_dung;
+    if (role !== 'admin') {
+      return res.status(403);
+    }
+
     try {
       const data: Phim[] = await this.prisma.phim.findMany({
         where: {
