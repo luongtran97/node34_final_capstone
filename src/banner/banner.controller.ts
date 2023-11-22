@@ -67,16 +67,16 @@ export class BannerController {
   @ApiConsumes('multipart/form-data')
   @ApiBody({ type: uploadBanner })
   @UseInterceptors(
-    FileInterceptor('banner_img', multerOption('img', '/public/imgRaw')),
+    FileInterceptor('banner_img', multerOption( '/public/imgRaw','img',)),
   )
   @Put('/CapNhatBanner')
   updateBanner(
     @Req() req,
     @Res() res,
-    @UploadedFile() file: Express.Multer.File,
+    @UploadedFile() banner_img: Express.Multer.File,
     @Body() body: number,
   ) {
-    return this.bannerService.updateBanner(res, body, file, req);
+    return this.bannerService.updateBanner(res, body, banner_img, req);
   }
 
   // api lấy chi tiết banner
