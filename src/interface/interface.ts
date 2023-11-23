@@ -226,17 +226,13 @@ export class lichChieu {
   @ApiProperty()
   gia_ve: number;
 }
-export class SeatDto {
-  @ApiProperty()
-  loai_ghe: string 
-  
-}
+
 export class datVe {
   @ApiProperty()
   ma_lich_chieu: number;
 
-  @ApiProperty({type:SeatDto})
-  ma_ghe: string
+  @ApiProperty()
+  ma_ghe: number
 
 }
 
