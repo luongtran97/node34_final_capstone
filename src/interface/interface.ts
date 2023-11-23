@@ -216,3 +216,50 @@ export class updateCinema {
   @ApiProperty()
   ten_he_thong_rap: string;
 }
+export class lichChieu {
+  @ApiProperty()
+  ma_rap: number;
+
+  @ApiProperty()
+  ma_phim: number;
+
+  @ApiProperty()
+  gia_ve: number;
+}
+export class SeatDto {
+  @ApiProperty()
+  loai_ghe: string 
+  
+}
+export class datVe {
+  @ApiProperty()
+  ma_lich_chieu: number;
+
+  @ApiProperty({type:SeatDto})
+  ma_ghe: string
+
+}
+
+export class ghe{
+  @ApiProperty()
+  ten_ghe:string
+
+  @ApiProperty()
+  loai_ghe:string
+
+  @ApiProperty()
+  ma_rap:number
+}
+export class gheUpdate{
+  @ApiProperty()
+  ma_ghe:number
+
+  @ApiProperty()
+  ten_ghe:string
+
+  @ApiProperty()
+  loai_ghe:string
+
+  @ApiProperty()
+  ma_rap:number
+}

@@ -12,11 +12,12 @@ import { HeThongRapModule } from './he_thong_rap/he_thong_rap.module';
 import { CumRapModule } from './cum_rap/cum_rap.module';
 import { RapPhimModule } from './rap_phim/rap_phim.module';
 import { LichChieuModule } from './lich-chieu/lich-chieu.module';
+import { GheModule } from './ghe/ghe.module';
 
 @Module({
   imports: [NguoiDungModule, AuthModule ,  ConfigModule.forRoot({
     isGlobal:true
-  }), DatVeModule, PhimModule, BannerModule, HeThongRapModule, CumRapModule, RapPhimModule, LichChieuModule],
+  }), DatVeModule, PhimModule, BannerModule, HeThongRapModule, CumRapModule, RapPhimModule, LichChieuModule, GheModule],
   controllers: [AppController],
   providers: [AppService,JwtStrategy],
 })
