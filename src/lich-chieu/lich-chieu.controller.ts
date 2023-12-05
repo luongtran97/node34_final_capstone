@@ -1,7 +1,8 @@
-import { Controller, Get, Query, Post, Body, Res, Delete } from '@nestjs/common';
+import { Controller, Get, Query, Post, Body, Res, Delete ,UseGuards, Req} from '@nestjs/common';
 import { LichChieuService } from './lich-chieu.service';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { lichChieu } from 'src/interface/interface';
+import { AuthGuard } from '@nestjs/passport';
 @ApiTags('Quản lý lịch chiếu')
 @Controller('LichChieu')
 export class LichChieuController {
@@ -17,14 +18,19 @@ export class LichChieuController {
     return this.lichChieuService.layThongTinLichChieuTheoMaPhim(+ma_phim);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'))
   @Post('TaoLichChieu')
-  TaoLichChieu(@Body() body: lichChieu, @Res() res) {
-    return this.lichChieuService.taoLichChieu(body, res);
+  TaoLichChieu(@Body() body: lichChieu, @Res() res , @Req() req) {
+    return this.lichChieuService.taoLichChieu(body, res,req);
   }
 
+
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'))
   @Delete('/XoaLichChieu')
-  XoaLichChieu(@Query('ma_lich_chieu') ma_lich_chieu: number){
-    return this.lichChieuService.xoaLichChieu(ma_lich_chieu)
+  XoaLichChieu(@Query('ma_lich_chieu') ma_lich_chieu: number, @Res() res , @Req() req){
+    return this.lichChieuService.xoaLichChieu(ma_lich_chieu,res,req)
   }
 
 }

@@ -12,23 +12,28 @@ export class PhimService {
     if (role !== 'admin') {
       return res.status(403);
     }
-    return await this.prisma.phim.findMany();
+    try {
+     let response = await this.prisma.phim.findMany();
+      return res.send(response)
+    } catch (error) {
+      return res.send(error)
+    }
   }
 
   // xử lý lấy danh sách phim phân trang
   async getFlimPagination(page, pageSize, res, req): Promise<Phim[]> {
+
+    let index: number = (page - 1) * pageSize;
     const role = req.user.data.loai_nguoi_dung;
     if (role !== 'admin') {
       return res.status(403);
     }
-    let index: number = (1 - page) * pageSize;
 
     try {
       const data: Phim[] = await this.prisma.phim.findMany({
         take: index,
         skip: pageSize,
       });
-
       return res.status(200).send(data);
     } catch (error) {
       return res.status(500).send(error);

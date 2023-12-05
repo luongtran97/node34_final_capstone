@@ -8,15 +8,17 @@ import {
   Req,
   Delete,
   Put,
+  UseGuards,
   Query,
   UseInterceptors,
   UploadedFile,
 } from '@nestjs/common';
 import { HeThongRapService } from './he_thong_rap.service';
-import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { multerOption } from 'src/config/config';
 import { updateCinema, uploadCinema } from 'src/interface/interface';
+import { AuthGuard } from '@nestjs/passport';
 
 @ApiTags('Quản lý hệ thống rạp')
 @Controller('QuanLyRap')
@@ -31,6 +33,8 @@ export class HeThongRapController {
   }
 
   // api thêm cụm rạp
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'))
   @Post('/ThemHeThongRap')
   @HttpCode(201)
   @ApiBody({ type: uploadCinema })
@@ -42,20 +46,26 @@ export class HeThongRapController {
     @Body() body: string,
     @UploadedFile() file: Express.Multer.File,
     @Res() res,
+    @Req() req
   ) {
-    return this.heThongRapService.addCinemaManagement(body, file, res);
+    return this.heThongRapService.addCinemaManagement(body, file, res, req);
   }
 
   // api xóa cụm rạp
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'))
   @Delete('/XoaHeThongRap')
   delCinemaManagement(
     @Query('ma_he_thong_rap') ma_he_thong_rap: number,
     @Res() res,
+    @Req() req,
   ) {
-    return this.heThongRapService.delCinemaManagement(+ma_he_thong_rap, res);
+    return this.heThongRapService.delCinemaManagement(+ma_he_thong_rap, res ,req);
   }
 
   // api cập nhật hệ thống rạp
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'))
   @Put('/CapNhatHeThongRap')
   @HttpCode(201)
   @ApiBody({ type: updateCinema })
@@ -67,7 +77,8 @@ export class HeThongRapController {
     @Body() body: string,
     @UploadedFile() file: Express.Multer.File,
     @Res() res,
+    @Req() req,
   ) {
-    return this.heThongRapService.updateCinemaManagement(body, file, res);
+    return this.heThongRapService.updateCinemaManagement(body, file, res , req);
   }
 }

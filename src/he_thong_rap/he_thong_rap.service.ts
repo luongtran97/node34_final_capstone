@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { HeThongRap, PrismaClient } from '@prisma/client';
-import { type } from 'os';
 
 @Injectable()
 export class HeThongRapService {
@@ -17,7 +16,12 @@ export class HeThongRapService {
   }
 
   // xử lý thêm hệ thống rạp
-  async addCinemaManagement(body, file, res): Promise<HeThongRap> {
+  async addCinemaManagement(body, file, res,req): Promise<HeThongRap> {
+    const role = req.user.data.loai_nguoi_dung;
+
+    if (role !== 'admin') {
+      return res.send(403);
+    }
     try {
       const response = await this.prisma.heThongRap.create({
         data: {
@@ -33,7 +37,12 @@ export class HeThongRapService {
   }
 
   // xử lý xóa hệ thống rạp
-  async delCinemaManagement(ma_he_thong_rap, res): Promise<void> {
+  async delCinemaManagement(ma_he_thong_rap, res, req): Promise<void> {
+    const role = req.user.data.loai_nguoi_dung;
+
+    if (role !== 'admin') {
+      return res.send(403);
+    }
     try {
       await this.prisma.heThongRap.delete({ where: { ma_he_thong_rap } });
       res.send('Xoá thành công!');
@@ -43,9 +52,12 @@ export class HeThongRapService {
   }
 
   // xử lý update hệ thống rạp
-  async updateCinemaManagement(body, file, res): Promise<HeThongRap> {
-    console.log('🚀 ~ file:', file);
-    console.log('🚀 ~ body:', body);
+  async updateCinemaManagement(body, file, res, req): Promise<HeThongRap> {
+    const role = req.user.data.loai_nguoi_dung;
+
+    if (role !== 'admin') {
+      return res.send(403);
+    }
     const { ma_he_thong_rap, ten_he_thong_rap } = body;
     try {
       const data = await this.prisma.heThongRap.update({

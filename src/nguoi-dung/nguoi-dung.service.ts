@@ -225,16 +225,18 @@ export class NguoiDungService {
 
     let index: number = (page - 1) * pageSize;
     const role:string = req.user.data.loai_nguoi_dung;
-
+    console.log('🚀 ~ role:', role)
+    
     if (role !== 'admin') {
       return res.send(403);
     }
+    console.log('🚀 ~ index:', index)
     try {
       const data:nguoiDungType[] = await this.prisma.nguoiDung.findMany({
         skip: index,
         take: pageSize,
       });
-
+      console.log('🚀 ~ data:', data)
       res.send(data);
     } catch (error) {
       res.send(error);

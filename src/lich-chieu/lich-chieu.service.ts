@@ -95,7 +95,12 @@ export class LichChieuService {
     return data;
   }
 
-  async taoLichChieu(body, res): Promise<LichChieu> {
+  async taoLichChieu(body, res,req): Promise<LichChieu> {
+    const role = req.user.data.loai_nguoi_dung;
+
+    if (role !== 'admin') {
+      return res.send(403);
+    }
     let data = {
       ma_rap: body.ma_rap,
       ma_phim: body.ma_phim,
@@ -111,7 +116,13 @@ export class LichChieuService {
     }
   }
 
-  async xoaLichChieu(ma_lich_chieu): Promise<string> {
+  async xoaLichChieu(ma_lich_chieu,res,req): Promise<string> {
+    const role = req.user.data.loai_nguoi_dung;
+
+    if (role !== 'admin') {
+      return res.send(403);
+    }
+
     try {
       await this.prisma.lichChieu.delete({
         where: {

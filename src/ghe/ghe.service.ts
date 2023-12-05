@@ -5,7 +5,12 @@ import { Ghe, PrismaClient } from '@prisma/client';
 export class GheService {
   prisma = new PrismaClient();
 
-  async themGhe(body): Promise<Ghe> {
+  async themGhe(body,req,res): Promise<Ghe> {
+    const role = req.user.data.loai_nguoi_dung;
+
+    if (role !== 'admin') {
+      return res.send(403);
+    }
     try {
       const data = await this.prisma.ghe.create({ data: body });
       return data;
@@ -14,7 +19,12 @@ export class GheService {
     }
   }
 
-  async xoaGhe(ma_ghe): Promise<string> {
+  async xoaGhe(ma_ghe, req, res): Promise<string> {
+    const role = req.user.data.loai_nguoi_dung;
+
+    if (role !== 'admin') {
+      return res.send(403);
+    }
     try {
       await this.prisma.ghe.delete({
         where: {
@@ -40,7 +50,13 @@ export class GheService {
     }
   }
 
-  async capNhatGhe(body): Promise<Ghe> {
+  async capNhatGhe(body, req, res): Promise<Ghe> {
+    const role = req.user.data.loai_nguoi_dung;
+
+    if (role !== 'admin') {
+      return res.send(403);
+    }
+
     const { ma_ghe, ten_ghe, loai_ghe } = body;
     let data = {
       ten_ghe,
