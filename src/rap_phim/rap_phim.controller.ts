@@ -3,7 +3,7 @@ import { RapPhimService } from './rap_phim.service';
 import { ApiTags } from '@nestjs/swagger';
 @ApiTags('Quản lý hệ thống rạp')
 
-@Controller('rap-phim')
+@Controller('rapPhim')
 export class RapPhimController {
   constructor(private readonly rapPhimService: RapPhimService) {}
   @Get('/LayThongRapPhimTheoCumRap')

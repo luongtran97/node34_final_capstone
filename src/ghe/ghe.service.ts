@@ -13,9 +13,9 @@ export class GheService {
     }
     try {
       const data = await this.prisma.ghe.create({ data: body });
-      return data;
+      return res.send(data);
     } catch (error) {
-      return error;
+      return res.send(error);
     }
   }
 
@@ -31,9 +31,9 @@ export class GheService {
           ma_ghe,
         },
       });
-      return 'Xóa thành công!';
+      return res.send('Xóa thành công!');
     } catch (error) {
-      return error;
+      return res.send(error);
     }
   }
 
@@ -69,9 +69,9 @@ export class GheService {
           ma_ghe,
         },
       });
-      return response;
+      return res.send(response);
     } catch (error) {
-      return error;
+      return res.send(error);
     }
   }
 }

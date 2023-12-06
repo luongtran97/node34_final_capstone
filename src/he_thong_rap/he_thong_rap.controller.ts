@@ -40,7 +40,7 @@ export class HeThongRapController {
   @ApiBody({ type: uploadCinema })
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(
-    FileInterceptor('hinh_he_thong_rap', multerOption('/public/imgRaw', 'img')),
+    FileInterceptor('logo', multerOption('/public/imgRaw', 'img')),
   )
   addCinemaManagement(
     @Body() body: string,
@@ -71,7 +71,7 @@ export class HeThongRapController {
   @ApiBody({ type: updateCinema })
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(
-    FileInterceptor('hinh_he_thong_rap', multerOption('/public/imgRaw', 'img')),
+    FileInterceptor('logo', multerOption('/public/imgRaw', 'img')),
   )
   updateCinemaManagement(
     @Body() body: string,

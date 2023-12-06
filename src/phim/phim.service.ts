@@ -25,14 +25,15 @@ export class PhimService {
 
     let index: number = (page - 1) * pageSize;
     const role = req.user.data.loai_nguoi_dung;
+
     if (role !== 'admin') {
       return res.status(403);
     }
 
     try {
       const data: Phim[] = await this.prisma.phim.findMany({
-        take: index,
-        skip: pageSize,
+        skip: index,
+        take: pageSize,
       });
       return res.status(200).send(data);
     } catch (error) {
@@ -174,24 +175,24 @@ export class PhimService {
   }
 
   // xử lý lấy danh sách phim theo ngày
-  async getFLimListByDay(tu_ngay, den_ngay, res, req): Promise<Phim[]> {
-    const role = req.user.data.loai_nguoi_dung;
-    if (role !== 'admin') {
-      return res.status(403);
-    }
+  // async getFLimListByDay(tu_ngay, den_ngay, res, req): Promise<Phim[]> {
+  //   const role = req.user.data.loai_nguoi_dung;
+  //   if (role !== 'admin') {
+  //     return res.status(403);
+  //   }
 
-    try {
-      const data: Phim[] = await this.prisma.phim.findMany({
-        where: {
-          ngay_khoi_chieu: {
-            gte: tu_ngay,
-            lte: den_ngay,
-          },
-        },
-      });
-      return res.status(200).send(data);
-    } catch (error) {
-      return res.status(400).send(error);
-    }
-  }
+  //   try {
+  //     const data: Phim[] = await this.prisma.phim.findMany({
+  //       where: {
+  //         ngay_khoi_chieu: {
+  //           gte: tu_ngay,
+  //           lte: den_ngay,
+  //         },
+  //       },
+  //     });
+  //     return res.status(200).send(data);
+  //   } catch (error) {
+  //     return res.status(400).send(error);
+  //   }
+  // }
 }

@@ -52,15 +52,15 @@ export class PhimController {
   }
 
   //api lấy danh sách phim theo ngày
-  @Get('/LayDanhSachPhimTheoNgay')
-  getFLimListByDay(
-    @Query('tu_ngay') tu_ngay: number,
-    @Query('den_ngay') den_ngay: number,
-    @Res() res,
-    @Req() req,
-  ) {
-    return this.phimService.getFLimListByDay(+tu_ngay, +den_ngay, res, req);
-  }
+  // @Get('/LayDanhSachPhimTheoNgay')
+  // getFLimListByDay(
+  //   @Query('tu_ngay') tu_ngay: number,
+  //   @Query('den_ngay') den_ngay: number,
+  //   @Res() res,
+  //   @Req() req,
+  // ) {
+  //   return this.phimService.getFLimListByDay(+tu_ngay, +den_ngay, res, req);
+  // }
 
   //api lấy thông tin phim
   @Get('LayThongTinChiTietPhim')

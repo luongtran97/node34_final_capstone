@@ -30,7 +30,7 @@ export class LichChieuController {
   @UseGuards(AuthGuard('jwt'))
   @Delete('/XoaLichChieu')
   XoaLichChieu(@Query('ma_lich_chieu') ma_lich_chieu: number, @Res() res , @Req() req){
-    return this.lichChieuService.xoaLichChieu(ma_lich_chieu,res,req)
+    return this.lichChieuService.xoaLichChieu(+ma_lich_chieu,res,req)
   }
 
 }

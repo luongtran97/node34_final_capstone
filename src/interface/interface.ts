@@ -90,15 +90,14 @@ export class thongTinNguoiDung {
   id_nguoi_dung: number;
   @ApiProperty()
   tai_khoan: string;
-
   @ApiProperty()
   ho_ten: string;
-
   @ApiProperty()
   so_dt: string;
-
   @ApiProperty()
   mat_khau: string;
+  @ApiProperty()
+  loai_nguoi_dung: string;
 }
 
 export const mapNguoiDungToResponsesType = (data: nguoiDungType[]) => {
@@ -201,14 +200,14 @@ export class uploadBanner {
 
 export class uploadCinema {
   @ApiProperty({ type: String, format: 'binary' })
-  hinh_he_thong_rap: any;
+  logo: any;
 
   @ApiProperty()
   ten_he_thong_rap: string;
 }
 export class updateCinema {
   @ApiProperty({ type: String, format: 'binary' })
-  hinh_he_thong_rap: any;
+  logo: any;
 
   @ApiProperty()
   ma_he_thong_rap: number;

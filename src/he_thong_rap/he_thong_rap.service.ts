@@ -29,7 +29,6 @@ export class HeThongRapService {
           logo: file.filename,
         },
       });
-
       return res.send(response);
     } catch (error) {
       return res.status(400).send(error);
@@ -51,10 +50,9 @@ export class HeThongRapService {
     }
   }
 
-  // xử lý update hệ thống rạp
+  // xử lý cập nhật hệ thống rạp
   async updateCinemaManagement(body, file, res, req): Promise<HeThongRap> {
     const role = req.user.data.loai_nguoi_dung;
-
     if (role !== 'admin') {
       return res.send(403);
     }
@@ -66,7 +64,7 @@ export class HeThongRapService {
           logo: file.filename,
         },
         where: {
-          ma_he_thong_rap,
+          ma_he_thong_rap:+ma_he_thong_rap,
         },
       });
       return res.send(data);

@@ -97,31 +97,22 @@ export class NguoiDungService {
 
   // xử lý cập nhật thông tin người dùng
   async updateUser(body, res, req): Promise<nguoiDungType> {
+    const {ho_ten,so_dt,loai_nguoi_dung,id_nguoi_dung} = body
     const role = req.user.data.loai_nguoi_dung;
     if (role !== 'admin') {
       return res.status(403);
     }
-    const checkEmail = await this.prisma.nguoiDung.findMany({
-      where: {
-        email: body.email,
-      },
-    });
-
-    if (checkEmail.length != 0) {
-      res.status(400).send('Email đã tồn tại!');
-    }
-
     try {
       const updatedUserData: nguoiDungResponse =
         await this.prisma.nguoiDung.update({
           data: {
-            ho_ten: body.ho_ten,
-            so_dt: body.so_dt,
-            loai_nguoi_dung: body.loai_nguoi_dung,
+            ho_ten,
+            so_dt,
+            loai_nguoi_dung,
             mat_khau: bcrypt.hashSync(body.mat_khau, 10),
           },
           where: {
-            id_nguoi_dung: body.id_nguoi_dung,
+            id_nguoi_dung,
           },
         });
       const response: nguoiDungType = {
@@ -224,19 +215,18 @@ export class NguoiDungService {
   async getPaginationUserList(page, pageSize, res, req): Promise<nguoiDungType[]> {
 
     let index: number = (page - 1) * pageSize;
-    const role:string = req.user.data.loai_nguoi_dung;
-    console.log('🚀 ~ role:', role)
-    
+    const role: string = req.user.data.loai_nguoi_dung;
+
+
     if (role !== 'admin') {
       return res.send(403);
     }
-    console.log('🚀 ~ index:', index)
     try {
-      const data:nguoiDungType[] = await this.prisma.nguoiDung.findMany({
+      const data: nguoiDungType[] = await this.prisma.nguoiDung.findMany({
         skip: index,
         take: pageSize,
       });
-      console.log('🚀 ~ data:', data)
+
       res.send(data);
     } catch (error) {
       res.send(error);

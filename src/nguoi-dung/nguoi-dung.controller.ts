@@ -71,7 +71,7 @@ export class NguoiDungController {
   }
 
   // api lấy thông tin cá nhân
-  @Get('/ThongTinCaNhan')
+  @Get('/LayThongTinCaNhan')
   getInfor(@Headers('token') token: string, @Req() req, @Res() res) {
     return this.nguoiDungService.getInfor(token, req, res);
   }

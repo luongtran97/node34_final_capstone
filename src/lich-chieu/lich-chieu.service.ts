@@ -56,20 +56,6 @@ export class LichChieuService {
         ma_phim,
       },
       include: {
-        Phim: {
-          select: {
-            ma_phim: true,
-            ten_phim: true,
-            trailer: true,
-            hinh_anh: true,
-            mo_ta: true,
-            ngay_khoi_chieu: true,
-            danh_gia: true,
-            hot: true,
-            dang_chieu: true,
-            sap_chieu: true,
-          },
-        },
         RapPhim: {
           select: {
             ma_rap: true,
@@ -122,16 +108,16 @@ export class LichChieuService {
     if (role !== 'admin') {
       return res.send(403);
     }
-
     try {
       await this.prisma.lichChieu.delete({
         where: {
           ma_lich_chieu,
         },
       });
-      return "xóa thành công"
+      return res.send("xóa thành công")
     } catch (error) {
-      return error
+      console.log('🚀 ~ error:', error)
+      return res.send(error)
     }
   }
 }
